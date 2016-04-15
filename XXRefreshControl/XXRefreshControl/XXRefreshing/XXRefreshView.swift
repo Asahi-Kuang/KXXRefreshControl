@@ -17,12 +17,14 @@ enum XXRefreshingAnimationStyle {
 class XXRefreshView: UIView, UITableViewDelegate {
 
     private var textLayer          : CATextLayer?
+    private var timeTextLayer      : CATextLayer?
     private var style              : XXRefreshingAnimationStyle
     private var refreshingTextColor: UIColor
     private var completeTextColor  : UIColor
     private var refreshingText     : String
     private var completeText       : String
-    
+    private var dateTextColor      : UIColor
+    private var dateTextFont       : CGFloat
     private var font               : CGFloat
     private var tableView          : UITableView?
     
@@ -30,7 +32,7 @@ class XXRefreshView: UIView, UITableViewDelegate {
     private var rhythmAniView      : XXRefreshingRhythmAnimation?
     private var flickAniView       : XXRefreshingFlickAnimation?
     
-    init(frame: CGRect, backgroundColor: UIColor, refreshingTipText: String, refreshingTipTextColor: UIColor, completeTipText: String, completeTipTextColor: UIColor, fontSize:CGFloat, animationStyle: XXRefreshingAnimationStyle) {
+    init(frame: CGRect, backgroundColor: UIColor, refreshingTipText: String, refreshingTipTextColor: UIColor, completeTipText: String, completeTipTextColor: UIColor, fontSize:CGFloat, dateSize: CGFloat, dateColor: UIColor, animationStyle: XXRefreshingAnimationStyle) {
         //
         refreshingTextColor  = refreshingTipTextColor
         completeTextColor    = completeTipTextColor
@@ -38,10 +40,13 @@ class XXRefreshView: UIView, UITableViewDelegate {
         completeText         = completeTipText
         style                = animationStyle
         font                 = fontSize
+        dateTextFont         = dateSize
+        dateTextColor        = dateColor
         super.init(frame: frame)
         self.backgroundColor = backgroundColor
         
         buildTipLable()
+        buildRefreshTime()
         
         switch animationStyle {
         case .rhythm:
@@ -66,11 +71,32 @@ class XXRefreshView: UIView, UITableViewDelegate {
         textLayer!.frame = CGRect(x: 0.0, y: CGRectGetHeight(self.frame)/4+15, width:self.bounds.width, height:CGRectGetHeight(self.frame)/4*3-15)
         textLayer!.string = refreshingText
         textLayer!.contentsScale = 2.0
-        textLayer!.foregroundColor = refreshingTextColor.CGColor
+        textLayer!.foregroundColor = UIColor.redColor().CGColor
         textLayer!.fontSize = font
         textLayer!.alignmentMode = kCAAlignmentCenter
         
         self.layer.insertSublayer(textLayer!, atIndex: 0)
+    }
+    
+    private func buildRefreshTime() {
+        
+        timeTextLayer = CATextLayer()
+        timeTextLayer!.frame = CGRect(x: 0.0, y: CGRectGetHeight(self.frame)/4*3, width:self.bounds.width, height:CGRectGetHeight(self.frame)/4)
+        timeTextLayer!.string = ""
+        timeTextLayer!.contentsScale = 2.0
+        timeTextLayer!.foregroundColor = dateTextColor.CGColor
+        timeTextLayer!.fontSize = dateTextFont
+        timeTextLayer!.alignmentMode = kCAAlignmentCenter
+        
+        self.layer.insertSublayer(timeTextLayer!, atIndex: 0)
+    }
+    
+    private func getRefreshTime() -> String {
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let dateNow = NSDate()
+        let dateString = formatter.stringFromDate(dateNow)
+        return "上次刷新于:"+" "+dateString
     }
     
     private func buildFilckAnimationView() {
@@ -84,7 +110,7 @@ class XXRefreshView: UIView, UITableViewDelegate {
     }
     
     private func buildRhythmAnimationView() {
-        rhythmAniView = XXRefreshingRhythmAnimation.init(frame: CGRect(x: 0.0, y: CGRectGetHeight(self.frame)/4, width: self.bounds.width, height: self.bounds.height/4-15), _numberOfItems: 6, _itemWidth: 5, _itemHeight: 20)
+        rhythmAniView = XXRefreshingRhythmAnimation.init(frame: CGRect(x: 0.0, y: CGRectGetHeight(self.frame)/4, width: self.bounds.width, height: self.bounds.height/4-15), _numberOfItems: 6, _itemWidth: 10, _itemHeight: 25)
         self.addSubview(rhythmAniView!)
     }
     
@@ -142,6 +168,9 @@ class XXRefreshView: UIView, UITableViewDelegate {
                 //
                 self.stretchAniView!.endRefreshing()
             }
+            
+            // 刷新时间
+            self.timeTextLayer!.string = self.getRefreshTime()
         }
         
         

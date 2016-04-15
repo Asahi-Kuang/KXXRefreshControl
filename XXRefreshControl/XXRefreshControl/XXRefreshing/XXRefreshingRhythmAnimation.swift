@@ -66,12 +66,12 @@ class XXRefreshingRhythmAnimation: UIView {
     
     
     private func addAnimationForViewAtIndex(index: NSInteger, layer: CALayer) {
-        let durations          = [0.6, 0.4, 0.7, 0.5, 0.9, 0.8]
+        let durations          = [0.5, 0.45, 0.75, 0.4, 0.6, 0.7]
         let animation          = CABasicAnimation.init(keyPath: "transform.scale.y")
         animation.duration     = durations[index]
         animation.repeatCount  = MAXFLOAT
         animation.fromValue    = 1.0
-        animation.toValue      = 0.1
+        animation.toValue      = 0.0
         animation.autoreverses = true
         
         layer.anchorPoint      = CGPoint(x: 0.0, y: 1.0)

@@ -80,32 +80,58 @@ class XXRefreshingFlickAnimation: UIView {
     }
     
     private func addAnimationForLeftLayerWithIndex(index: NSInteger, view: UIView) {
+        let scaleArray = [0.5, 0.6, 0.7, 0.9]
         let bezier = UIBezierPath()
         bezier.moveToPoint(CGPoint(x: view.center.x, y: self.bounds.height/4))
         bezier.addLineToPoint(CGPoint(x:self.bounds.width/2, y:self.bounds.height/4))
         bezier.closePath()
         
-        let leftAnimation = CAKeyframeAnimation.init(keyPath: "position")
-        leftAnimation.duration = 1.2
-        leftAnimation.repeatCount = MAXFLOAT
-        leftAnimation.path = bezier.CGPath
+        let leftAnimation           = CAKeyframeAnimation.init(keyPath: "position")
+        leftAnimation.duration      = 1.2
+        leftAnimation.repeatCount   = MAXFLOAT
+        leftAnimation.path          = bezier.CGPath
+        
+        let alphaAnimation          = CABasicAnimation.init(keyPath: "transform.scale")
+        alphaAnimation.duration     = 1.2
+        alphaAnimation.repeatCount  = MAXFLOAT
+//        alphaAnimation.autoreverses = true
+        alphaAnimation.fromValue    = 1.0
+        alphaAnimation.toValue      = scaleArray[index]
+        
+        let animationGroup          = CAAnimationGroup.init()
+        animationGroup.animations   = [leftAnimation, alphaAnimation]
+        animationGroup.duration     = 2.4
+        animationGroup.repeatCount  = MAXFLOAT
         
         view.layer.cornerRadius = view.frame.size.width/2
-        view.layer.addAnimation(leftAnimation, forKey: "position")
+        view.layer.addAnimation(animationGroup, forKey: "group")
     }
     
     private func addAnimationForRightViewWithIndex(index: NSInteger, view: UIView) {
+        let scaleArray = [0.5, 0.6, 0.7, 0.9]
         let bezier = UIBezierPath()
         bezier.moveToPoint(CGPoint(x: view.center.x, y: self.bounds.height/4))
         bezier.addLineToPoint(CGPoint(x:self.bounds.width/2, y:self.bounds.height/4))
         bezier.closePath()
         
-        let leftAnimation = CAKeyframeAnimation.init(keyPath: "position")
-        leftAnimation.duration = 1.2
-        leftAnimation.repeatCount = MAXFLOAT
-        leftAnimation.path = bezier.CGPath
+        let leftAnimation           = CAKeyframeAnimation.init(keyPath: "position")
+        leftAnimation.duration      = 1.2
+        leftAnimation.repeatCount   = MAXFLOAT
+        leftAnimation.path          = bezier.CGPath
+        
+        let alphaAnimation          = CABasicAnimation.init(keyPath: "transform.scale")
+        alphaAnimation.duration     = 1.2
+        alphaAnimation.repeatCount  = MAXFLOAT
+//        alphaAnimation.autoreverses = true
+        alphaAnimation.fromValue    = 1.0
+        alphaAnimation.toValue      = scaleArray[index]
+        
+        let animationGroup          = CAAnimationGroup.init()
+        animationGroup.animations   = [leftAnimation, alphaAnimation]
+        animationGroup.duration     = 2.4
+        animationGroup.repeatCount  = MAXFLOAT
         
         view.layer.cornerRadius = view.frame.size.width/2
-        view.layer.addAnimation(leftAnimation, forKey: "position")
+        view.layer.addAnimation(animationGroup, forKey: "group")
     }
 }

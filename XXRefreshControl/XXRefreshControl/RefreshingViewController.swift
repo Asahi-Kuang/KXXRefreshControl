@@ -34,7 +34,17 @@ class RefreshingViewController: UIViewController {
     
     func addRefreshingView() {
 //        style = XXRefreshingAnimationStyle.stretch
-        refreshingView = XXRefreshView.init(frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 60.0), backgroundColor: UIColor.init(red: 230/255.0, green: 1.0, blue: 253/255.0, alpha: 1.0), refreshingTipText: "Refreshing...", refreshingTipTextColor: UIColor.orangeColor(), completeTipText: "refresh successful!", completeTipTextColor: UIColor.blackColor(), fontSize: 12.0, animationStyle: self.style!)
+        refreshingView = XXRefreshView.init(
+            frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 60.0),
+            backgroundColor: UIColor.init(red: 230/255.0, green: 1.0, blue: 253/255.0, alpha: 1.0),
+            refreshingTipText: "正在努力刷新中哟(づ｡◕‿‿◕｡)づ",
+            refreshingTipTextColor: UIColor.orangeColor(),
+            completeTipText: "刷新成功!",
+            completeTipTextColor: UIColor.blackColor(),
+            fontSize: 12.0,
+            dateSize: 10.0,
+            dateColor: UIColor.blackColor(),
+            animationStyle: self.style!)
         listView!.tableHeaderView = refreshingView
     }
     
