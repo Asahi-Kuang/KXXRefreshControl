@@ -57,7 +57,7 @@ class XXRefreshingRhythmAnimation: UIView {
                 UIColor.blackColor()
         ]
         for i in 0..<numberOfItems {
-            let itemView = UIView.init(frame: CGRect(x: (frame.width/2 - 12.0 - CGFloat(numberOfItems/2)*(itemWidth+itemDistance)) + CGFloat(i)*(CGFloat(numberOfItems)+itemWidth), y: frame.height, width: itemWidth, height: itemHeight))
+            let itemView = UIView.init(frame: CGRect(x: (frame.width/2 - 12.0 - CGFloat(numberOfItems/2)*(itemWidth+itemDistance)) + CGFloat(i)*(CGFloat(numberOfItems)+itemWidth), y: 0.0, width: itemWidth, height: itemHeight))
             itemView.backgroundColor = colorArray[i]
             self.addSubview(itemView)
             elementsArray.append(itemView)

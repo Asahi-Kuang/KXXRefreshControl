@@ -178,6 +178,10 @@ class XXRefreshView: UIView, UITableViewDelegate {
     
     
     // MARK: - UITableViewDelegate
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: false)
+    }
+    
     func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
         //
         if scrollView.contentOffset.y < -self.bounds.height*2 {

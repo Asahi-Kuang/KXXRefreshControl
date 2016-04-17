@@ -8,7 +8,7 @@
 
 import UIKit
 
-class RefreshingViewController: UIViewController {
+class RefreshingViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var listView               : UITableView?
     var style                  : XXRefreshingAnimationStyle?
@@ -35,8 +35,8 @@ class RefreshingViewController: UIViewController {
     func addRefreshingView() {
 //        style = XXRefreshingAnimationStyle.stretch
         refreshingView = XXRefreshView.init(
-            frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 60.0),
-            backgroundColor: UIColor.init(red: 230/255.0, green: 1.0, blue: 253/255.0, alpha: 1.0),
+            frame: CGRect(x: 0.0, y: 0.0, width: self.view.bounds.width, height: 80.0),
+            backgroundColor: UIColor.init(red: 235/255.0, green: 127/255.0, blue: 175/255.0, alpha: 0.3),
             refreshingTipText: "正在努力刷新中哟(づ｡◕‿‿◕｡)づ",
             refreshingTipTextColor: UIColor.orangeColor(),
             completeTipText: "刷新成功!",
@@ -51,8 +51,10 @@ class RefreshingViewController: UIViewController {
     func originalSetting() {
         //
         self.view.backgroundColor = UIColor.whiteColor()
-        listView = UITableView.init(frame: CGRect(x: 0.0, y: -60, width: self.view.bounds.width, height: self.view.bounds.height-60.0), style: .Plain)
+        listView = UITableView.init(frame: CGRect(x: 0.0, y: -80, width: self.view.bounds.width, height: self.view.bounds.height-80.0), style: .Plain)
         listView!.tableFooterView = UIView()
+        listView!.dataSource = self
+        listView!.delegate = self
         self.view.addSubview(listView!)
 
         
@@ -78,6 +80,26 @@ class RefreshingViewController: UIViewController {
     func end() {
         refreshingView!.endRefreshing()
     }
+    
+    // MARK: - UITableViewDataSource && delegate
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return 8 }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCellWithIdentifier("identifier")
+        if cell == nil {
+            cell = UITableViewCell.init(style: .Value1, reuseIdentifier: "identifier")
+        }
+        return cell!
+    }
+    
+    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        let text = ["Objective-C", "Swift", "Python", "C#", "C++", "Javascript", "HTML5", "..."]
+        let text2 = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "..."]
+        cell.textLabel!.text = text[indexPath.row]
+        cell.detailTextLabel!.text = text2[indexPath.row]
+    }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat { return 55 }
     
     /*
      // MARK: - Navigation
