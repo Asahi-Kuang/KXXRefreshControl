@@ -121,7 +121,7 @@ class XXRefreshView: UIView, UITableViewDelegate {
         
         tableView = self.superview as? UITableView
         tableView!.delegate = self
-        UIView.animateKeyframesWithDuration(0.3, delay: 0.0, options: [], animations: {
+        UIView.animateWithDuration(0.3, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0.0, options: .CurveEaseOut, animations: {
             //
             self.tableView!.transform = CGAffineTransformMakeTranslation(0.0, self.bounds.height)
             self.textLayer!.string = self.refreshingText
@@ -139,9 +139,8 @@ class XXRefreshView: UIView, UITableViewDelegate {
                 //
                 self.stretchAniView!.beginRefreshing()
             }
-            
-        }) { (isCompleted) in
-            //
+            }) { (isCompleted) in
+                //
         }
         
     }
@@ -149,7 +148,7 @@ class XXRefreshView: UIView, UITableViewDelegate {
     func endRefreshing() {
         
         self.textLayer!.string = self.completeText
-        UIView.animateWithDuration(0.3, delay: 0.5, options: [], animations: {
+        UIView.animateWithDuration(0.3, delay: 1.0, options: [], animations: {
             //
             self.tableView!.transform = CGAffineTransformMakeTranslation(0.0, 0.0)
             
@@ -179,9 +178,9 @@ class XXRefreshView: UIView, UITableViewDelegate {
     
     
     // MARK: - UITableViewDelegate
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        
-        if scrollView.contentOffset.y < -self.bounds.height {
+    func scrollViewWillBeginDecelerating(scrollView: UIScrollView) {
+        //
+        if scrollView.contentOffset.y < -self.bounds.height*2 {
             beginRefreshing()
         }
     }
